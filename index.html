@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Squares</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<style>
+	canvas {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: -1;
+	}
+	#menu {
+		position: absolute;
+		width: 500px;
+		height: 600px;
+		background-color: white;
+		-webkit-box-shadow: -2px 2px 7px rgba(0,0,0,0.5);
+		-moz-box-shadow: -2px 2px 7px rgba(0,0,0,0.5);
+		-ms-box-shadow: -2px 2px 7px rgba(0,0,0,0.5);
+		-o-box-shadow: -2px 2px 7px rgba(0,0,0,0.5);
+		box-shadow: -2px 2px 7px rgba(0,0,0,0.5);
+	}
+	h1 {
+		text-align: center;
+		font-size: 2em;
+	}
+	p {
+		text-align: justify;
+		padding: 30px;
+	}
+	#links {
+		text-align: center;
+	}
+	a {
+		font-family: Impact, sans-serif;
+		font-weight: bold;
+		font-size: 2.5em;
+		text-transform: uppercase;
+		-moz-text-shadow: 0px 2px 0px grey;
+		-ms-text-shadow: 0px 2px 0px grey;
+		-o-text-shadow: 0px 2px 0px grey;
+		text-shadow: 0px 2px 0px grey;
+	}
+	a:active {
+		-moz-text-shadow: 0px 0px 0px grey;
+		-ms-text-shadow: 0px 0px 0px grey;
+		-o-text-shadow: 0px 0px 0px grey;
+		text-shadow: 0px 0px 0px grey;
+	}
+	#signed
+	{
+		margin-top: -50px;
+		float: right;
+		color: black;
+		font-family: arial;
+		font-size: 0.7em;
+		font-variant: italic;
+		padding-right: 10px
+	}
+	#signed a{
+		color: black;
+		font-family: arial;
+		font-size: 0.7em;
+		font-variant: italic
+	}
+	#signed a:hover {
+		text-decoration: none;
+	}
+	</style>
+</head>
+<body>
+	<div id="menu">
+		<h1>Titre</h1>
+
+	<p>Le but du jeu est de faire arriver le petit rectangle rouge à l'extremité droite de la fenêtre en le faisant sauter de cube en cube avec les touches fléchées. Attention aux boules noires qui vous feront recommencer du début.<br />
+	Si vous tombez en bas de l'écran, le rectangle reviendra au même endroit en haut.<br />
+	Pour commencer, appuyer sur "Play" :
+	</p>
+
+	<p id="links" >
+		<a>Play</a><br /><br />
+		<a>Quit</a>
+	</p>
+
+	<p>Optimal sous Chrome, compatible mais très lents avec les autres browsers les plus récents.</p>
+	<p id="signed">Suggestions, problèmes : <a href="https://twitter.com/yhoyhoj">@yhoyhoj</a></p>
+
+	</div>
+	<canvas></canvas>
+	<script type="text/javascript" src="js/Player.js"></script>
+	<script type="text/javascript" src="js/Square.js"></script>
+	<script type="text/javascript" src="js/Mine.js"></script>
+	<script type="text/javascript" src="js/input.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

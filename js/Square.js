@@ -9,12 +9,14 @@ function Square(x, y, size, color, speed, time) {
 	this.size = size;
 	this.color = color;
 	this.speed = speed;
-	this.time = time;
-	this.player = false;
+	this.time = time; //if the square has a timer on it
+	this.player = false; //render player if true
 
-	objects.push(this);
+	objects.push(this); //add it the the general objects list
 }
 Square.prototype.render = function() {
+
+	c.save();
 
 	c.fillStyle = this.color;
 	c.shadowColor="rgba(0,0,0,0.5)";
@@ -25,7 +27,7 @@ Square.prototype.render = function() {
 
 	if(this.time) {
 		var date =  new Date(new Date() - seconds);
-		var text = ("0" + date.getMinutes()).slice(-2) + ":" + ("0"+date.getSeconds()).slice(-2);
+		var text = ("0" + date.getMinutes()).slice(-2) + ":" + ("0"+date.getSeconds()).slice(-2); // add a 0 to have always two numbers
 
 		c.restore();
 		c.fillStyle = "white";
@@ -37,20 +39,19 @@ Square.prototype.render = function() {
 		c.fillText(text, Math.round(this.x+(this.size-c.measureText(text).width)/2), Math.round(this.y+this.size/2));
 	}
 
+	c.restore();
+
 	this.onRender();
 }
 Square.prototype.onRender = function() {
 
-	if(this.player)
+	if(this.player)			//render the player if set has player renderer
 		player.render();
-
-	if(this.grave)
-		this.grave.render();
 
 }
 Square.prototype.tick = function() {
 
-	if(this.x < -this.size) {
+	if(this.x < -this.size) { //if is no more one the screen
 
 		if(this.time){
 			this.size = 125-Math.random()*100;
@@ -60,13 +61,13 @@ Square.prototype.tick = function() {
 			this.y = this.size+Math.random()*canvas.height-2*this.size+1;
 		}
 		else {
-		this.x = canvas.width+this.size;
-		this.y = Math.random()*canvas.height+1;
+		this.x = canvas.width+this.size; //put it back on the other side
+		this.y = Math.random()*canvas.height+1; //set random y position to avoid recognizable patterns
 		}
 
 	}
-	else
-		this.x-= this.speed;
+	else	//if still ont the screen
+		this.x-= this.speed; //just make it move
 
 	this.render();
 }

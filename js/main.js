@@ -2,7 +2,7 @@
 	By Yhoyhoj : twitter.com/yhoyhoj
 */
 
-function randomHexa() {
+function randomHexa() { //return a random hexa number
 
 	var hexa = ['A', 'B', 'C', 'D' ,'E', 'F'];
 
@@ -14,14 +14,14 @@ function randomHexa() {
 
 	return number;
 }
-function randomColor() {
+function randomColor() { //return random hexa color
 	var color = '#';
 	for(var i =0; i < 6; i++){
 		color+= randomHexa();
 	}
 	return color;
 }
-function init() {
+function init() { //create squares and first bonus/mines, create the player
 
 	for(var i = 0; i < canvas.width/15; i++){
 
@@ -29,16 +29,15 @@ function init() {
 	}
 
 	player = new Player(canvas.width/5, -25);
-	player.render();
 
-	var pp = new Square(Math.random()*canvas.width+1, Math.random()*canvas.height+1, 125-Math.random()*100, randomColor(), 0.5+Math.random(), true);
-
-	for(var i = 0; i < canvas.width/192; i++){
+	for(var i = 0; i < canvas.width/320; i++){ //number of mines and bonus relative to the screen width
 		var mine = new Mine(Math.random()*canvas.width+1, Math.random()*canvas.height+1, 100-Math.random()*30, 0.5+Math.random());
+		var bonus = new Bonus(Math.random()*canvas.width+1, Math.random()*canvas.height+1);
 	}
 }
 function drawArrow() {
 
+	c.restore();
 	c.save();
 	c.fillStyle = "black";
 	c.translate(canvas.width/5-30, 10);
@@ -58,19 +57,26 @@ function drawArrow() {
 	c.restore();
 
 	c.fillStyle = "black";
-	c.fillRect(canvas.width/5-50, 0, 3, 55);
+	c.fillRect(canvas.width/5-50, -5, 3, 55);
 	c.fillRect(canvas.width/5-50, 20, 30, 3);
 	c.fillRect(canvas.width/5-50, 45, 30, 3);
 
+	c.restore();
+
 }
-function onWin() {
+function onWin() { //draw the on win screen
+
 	c.restore();
 	c.fillStyle = "black";
 	c.font = "70px Arial";
 	c.fillText("You won !", canvas.width/2 - c.measureText("You won !").width/2, canvas.height/2 -70/2);
 	c.font = "15px Arial";
-	c.fillText("Et je pense que vous êtes le premier !", canvas.width/2 - c.measureText("Et je pense que vous êtes le premier !").width/2, canvas.height/2+10 -15/2);
+	c.fillText("Temps : "+elapsedTime, canvas.width/2 - c.measureText("Temps : "+elapsedTime).width/2, canvas.height/2+10 -15/2);
 
+	if(localStorage && localStorage.getItem('rectangularBest') != "nothing") {
+		var time = localStorage.getItem('rectangularBest');
+		c.fillText("Meilleur temps : "+time, canvas.width/2 - c.measureText("Meilleur temps : "+time).width/2, canvas.height/2+30 -15/2);
+	}
 }
 
 
@@ -80,10 +86,11 @@ canvas.height = window.innerHeight;
 var c = canvas.getContext("2d");
 var objects = [];
 var player;
-var seconds = new Date();
+var seconds;
 var left, right, up, space;
 var started = false;
 var win = false;
+var elapsedTime;
 
 var menu = document.getElementById('menu');
 menu.style.left = canvas.width/2-250+"px";
@@ -102,8 +109,10 @@ document.onkeyup = function(evt) {
 
 };
 
-document.getElementsByTagName('a')[0].onclick = function() {
+document.getElementsByTagName('a')[0].onclick = function() { //on wlick on the play button
 	menu.style.opacity = 0;
+	seconds = new Date(); //save the start date (bad variable name)
+	var pp = new Square(canvas.width+100, Math.random()*canvas.height+1, 125-Math.random()*100, randomColor(), 0.5+Math.random(), true); // create a timer square
 	started = true;
 };
 
@@ -129,6 +138,9 @@ function update() {
 	else
 		setTimeout(update, 1000/40);
 
+	c.save();
+
+	//erase the screen
 
 	c.fillStyle = "#FAFAED";
 	c.shadowBlur=0;
@@ -140,30 +152,35 @@ function update() {
 
 	drawArrow();
 
+	c.restore();
+
 	for(var i = 0; i < objects.length; i++) {
 
 		var p = objects[i];		
 		p.tick();
 	}
 	
-	if(started)
+	if(started)			//the player is updated/rendered only if the game has begun
 		player.tick();
-	else {
-		player.render();
-	}
 
-	if(win)
+	if(win)			//will draw the on win screen only if win
 		onWin();
 
 }
 
 /* --- Changelog ----
 
+*09/08/12
+- Better renderer system for player, to avoid a z-axis bug
+- Added local high-score system
+
+*09/06/12
+- Added Parachute and parachute reload
+- increased player velocity
+
 *09/05/12
 - Added Mines
 - Pre-added parachute, to be finished
-- Decided to submit this game to js13kgames
-
 
 *09/04/12
 - Better jump

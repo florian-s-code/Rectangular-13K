@@ -70,12 +70,14 @@ function onWin() { //draw the on win screen
 	c.fillStyle = "black";
 	c.font = "70px Arial";
 	c.fillText("You won !", canvas.width/2 - c.measureText("You won !").width/2, canvas.height/2 -70/2);
+	c.font = "20px Arial";
+	c.fillText("Reload the page to retry (your best time will be saved).", canvas.width/2 - c.measureText("Reload the page to retry (your best time will be saved).").width/2, canvas.height/2+8 -15/2);
 	c.font = "15px Arial";
-	c.fillText("Temps : "+elapsedTime, canvas.width/2 - c.measureText("Temps : "+elapsedTime).width/2, canvas.height/2+10 -15/2);
+	c.fillText("Time : "+elapsedTime, canvas.width/2 - c.measureText("Time : "+elapsedTime).width/2, canvas.height/2+30 -15/2);
 
-	if(localStorage && localStorage.getItem('rectangularBest') != "nothing") {
+	if(localStorage && localStorage.getItem('rectangularBest') != null) {
 		var time = localStorage.getItem('rectangularBest');
-		c.fillText("Meilleur temps : "+time, canvas.width/2 - c.measureText("Meilleur temps : "+time).width/2, canvas.height/2+30 -15/2);
+		c.fillText("Best time : "+time, canvas.width/2 - c.measureText("Best time : "+time).width/2, canvas.height/2+50 -15/2);
 	}
 }
 

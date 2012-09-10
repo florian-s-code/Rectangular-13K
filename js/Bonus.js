@@ -38,4 +38,3 @@ Bonus.prototype.disappear = function() {
 
 	new Bonus(canvas.width+100, Math.random()*canvas.height+1); //create a new bonus on the screen
 }
--
